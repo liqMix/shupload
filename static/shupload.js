@@ -250,6 +250,10 @@ let shupload =  (function() {
                     sendFile(items[i].getAsFile())
                     e.preventDefault();
                   }
+                  else if (items[i].type.indexOf('text/plain') !== -1){
+                    items[i].getAsString((text)=>{sendFile(new Blob([text]), new Date().toISOString() + ".txt")});
+                    e.preventDefault();
+                  }
                 }
               }
             }
