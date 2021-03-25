@@ -261,6 +261,32 @@ let shupload =  (function() {
         }
       }
     },
+    { name: "📝 Text",
+      component: {
+        view: () => {
+          return [
+            m("input", {
+              id: "TextInputName",
+              type: "text",
+              placeholder: "File Name",
+            }),
+            m("textarea.Clipboard", {
+              id: "TextInputField",
+              placeholder: "Enter text here."
+            }),
+            m(".Button", {
+              onclick: () => {
+                let input_text = document.getElementById("TextInputField").value;
+                let file_name = document.getElementById("TextInputName");
+                if(!file_name)
+                  file_name = new Date().toISOString();
+                sendFile(new Blob([input_text]), file_name.value + ".txt");
+              }
+            }, "Upload")
+          ]
+        }
+      }
+    }
   ]
   // Upload Bar located at the bottom of the view
   let UploadBar = {
