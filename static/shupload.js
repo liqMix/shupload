@@ -548,6 +548,20 @@ let shupload =  (function() {
                   type: View.Mimetype,
                 }))
               )
+            : View.Type === "text" ?
+              m('.DataContainer', [
+                m('frame', {
+                  onload: (e) => {
+                    let ele = e.path[0];
+                    let parent = e.path[1];
+                    parent.removeChild(ele);
+
+                    fetch(View.Entryname+"/"+View.Filename)
+                      .then(res=>res.text())
+                      .then((data)=>{document.getElementById("TextDisplay").innerText = data;})
+                  }}),
+                m('pre', {id: "TextDisplay"})]
+              )
             : m('.DataContainer', m.trust(View.DataHTML))
           ]),
           m(StatusBar.Component)
@@ -567,6 +581,8 @@ let shupload =  (function() {
         let img = document.getElementsByTagName("img")[0]
         let audio = document.getElementsByTagName("audio")[0]
         let video = document.getElementsByTagName("video")[0]
+        let text = document.getElementsByTagName("pre")[0]
+        
         if (img) {
           let parts = img.getAttribute('src').split('/')
           View.Entryname = parts[0]
@@ -592,6 +608,14 @@ let shupload =  (function() {
             View.Filename = parts[1]
             View.Type = "video"
             View.Mimetype = source.getAttribute('type')
+          }
+        } else if (text) {
+          let source = text.getAttribute('src');
+          if (source) {
+            let parts = source.split('/')
+            View.Type = "text"
+            View.Entryname = parts[0]
+            View.Filename = parts[1]
           }
         } else {
           let target = document.getElementsByClassName("Label")[0]

@@ -34,6 +34,8 @@
             <source src="{{.URI}}" type={{.Mimetype}}>
             Your browser does not support the <code>video</code> element.
           </video>
+        {{else if regexMatch "text/plain/*" .Mimetype}}
+          <pre src="{{.URI}}"/>
         {{else}}
           Cannot display file with mimetype of "{{.Mimetype}}".
         {{end}}
